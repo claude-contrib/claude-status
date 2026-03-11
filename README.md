@@ -1,6 +1,6 @@
 # Claude Status
 
-> A zinit plugin that renders a live [Claude Code](https://claude.ai/code) status line in your terminal — context usage, cost, model, branch, worktree, and more.
+> A live [Claude Code](https://claude.ai/code) status line for your terminal — context usage, cost, model, branch, worktree, and more.
 
 [![Release](https://img.shields.io/github/v/release/claude-contrib/claude-status)](https://github.com/claude-contrib/claude-status/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -15,25 +15,40 @@ Claude Code calls your `statusLine` command after each tool invocation, piping a
 
 > **Requires a TrueColor terminal.** Colors will not render on terminals that do not support 24-bit color. Most modern terminals qualify: iTerm2, Kitty, Alacritty, Warp, Ghostty, and Windows Terminal all work out of the box.
 
-The plugin (`claude-status.plugin.zsh`) installs the `claude-status` binary into `~/.local/bin/` via a symlink so it's always on your `$PATH`.
+## Installation
 
-## Dependencies
+### Via zinit
 
-- [`jq`](https://jqlang.github.io/jq/) — JSON parsing
-
-```sh
-brew install jq
-```
-
-## Quickstart
-
-**1. Install via zinit** in your `~/.zshrc`:
+Add to your `~/.zshrc`:
 
 ```zsh
 zinit light claude-contrib/claude-status
 ```
 
-**2. Set the status command** in `~/.claude/settings.json`:
+### Via Nix flakes
+
+```sh
+nix profile install github:claude-contrib/claude-status
+```
+
+Or in your `flake.nix` inputs:
+
+```nix
+inputs.claude-status.url = "github:claude-contrib/claude-status";
+```
+
+### Manually
+
+```sh
+git clone https://github.com/claude-contrib/claude-status ~/.local/share/claude-status
+ln -s ~/.local/share/claude-status/claude-status.sh ~/.local/bin/claude-status
+```
+
+Requires [`jq`](https://jqlang.github.io/jq/) on your `$PATH` (`brew install jq`).
+
+### Configure Claude Code
+
+Set the status command in `~/.claude/settings.json`:
 
 ```json
 {
