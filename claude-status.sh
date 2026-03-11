@@ -57,7 +57,7 @@ context_segment() {
   [ -n "$bar_on" ] && filled_s=$(gum style --foreground "$bar_fg" -- "$bar_on")
   [ -n "$bar_off" ] && empty_s=$(gum style --foreground 238 -- "$bar_off")
 
-  printf '%s' "${filled_s}${empty_s} $(gum style --foreground 103 -- "${context_used}%")"
+  printf '%s' "${filled_s}${empty_s} $(gum style --foreground 250 -- "${context_used}%")"
 }
 
 # cost_segment
@@ -140,7 +140,7 @@ time_segment() {
   mins=$(((cost_duration_ms % 3600000) / 60000))
   secs=$(((cost_duration_ms % 60000) / 1000))
   [ "$hours" -gt 0 ] && fmt="${hours}h ${mins}m ${secs}s" || fmt="${mins}m ${secs}s"
-  gum style --foreground 103 -- "󱑓 ${fmt}"
+  gum style --foreground 250 -- "󱑓 ${fmt}"
 }
 
 # diff_segment
