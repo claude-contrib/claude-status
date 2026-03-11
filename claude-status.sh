@@ -7,6 +7,7 @@ export CLICOLOR_FORCE=1
 
 # Capture stdin immediately before any subcommand can consume it
 _input=$(cat)
+# Resolve the directory containing this script, following symlinks (e.g. ~/.local/bin)
 _source_dir=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
 
 # parse_input
