@@ -7,6 +7,7 @@ export CLICOLOR_FORCE=1
 
 # Capture stdin immediately before any subcommand can consume it
 _input=$(cat)
+_source_dir=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
 
 # parse_input
 #
@@ -22,7 +23,7 @@ parse_input() {
   cost_lines_added=0 cost_lines_removed=0 context_used=0
   claude_agent="" worktree_name="" worktree_branch=""
 
-  eval "$(jq -r -f "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/claude-status.jq" <<<"$_input")"
+  eval "$(jq -r -f "$_source_dir/claude-status.jq" <<<"$_input")"
 }
 
 # ── Colors ────────────────────────────────────────────────────────────────────────────────
