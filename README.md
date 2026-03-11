@@ -7,6 +7,8 @@
 
 Claude Code's `--status-command` hook fires on every tool call — but the raw JSON payload isn't something you can glance at. Claude Status turns that stream into a compact, color-coded status line you actually want to read.
 
+![Claude Status preview](docs/preview.png)
+
 ## How It Works
 
 Claude Code calls your `--status-command` binary after each tool invocation, piping a JSON payload with session metadata. `claude-status` reads that payload, parses it with `jq`, and renders each segment using `gum` — styled, colored, and joined into a single line.
