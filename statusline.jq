@@ -1,0 +1,10 @@
+"claude_model=\(.model.display_name // "?" | @sh)",
+"current_dir=\(.workspace.current_dir // "." | @sh)",
+"cost_usd=\(.cost.total_cost_usd // 0 | tostring | @sh)",
+"cost_duration_ms=\(.cost.total_duration_ms // 0 | tostring | @sh)",
+"cost_lines_added=\(.cost.total_lines_added // 0 | tostring | @sh)",
+"cost_lines_removed=\(.cost.total_lines_removed // 0 | tostring | @sh)",
+"context_used=\(.context_window.used_percentage // 0 | floor | tostring | @sh)",
+"claude_agent=\(.agent.name // "" | @sh)",
+"worktree_name=\(.worktree.name // "" | @sh)",
+"worktree_branch=\(.worktree.branch // "" | @sh)"
