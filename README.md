@@ -51,10 +51,13 @@ Each segment is independently styled and only shown when relevant:
 
 | Variable | Values | Default | Description |
 |----------|--------|---------|-------------|
-| `CLAUDE_CODE_STATUS_THEME` | `dark` \| `light` | `dark` | Switch the color palette for light terminal backgrounds |
+| `CLAUDE_CODE_STATUS_THEME` | `dark` \| `light` | `dark` | Color palette — `dark` for dark terminal backgrounds, `light` for light ones |
+
+Set it in your `~/.zshrc` before the zinit load line:
 
 ```sh
 export CLAUDE_CODE_STATUS_THEME=light
+zinit light claude-contrib/claude-status
 ```
 
 ## Dependencies
