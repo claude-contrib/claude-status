@@ -1,0 +1,73 @@
+# Claude Status
+
+> A zinit plugin that renders a live [Claude Code](https://claude.ai/code) status line in your terminal — context usage, cost, model, branch, worktree, and more.
+
+[![Release](https://img.shields.io/github/v/release/claude-contrib/claude-status)](https://github.com/claude-contrib/claude-status/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+Claude Code's `--status-command` hook fires on every tool call — but the raw JSON payload isn't something you can glance at. Claude Status turns that stream into a compact, color-coded status line you actually want to read.
+
+## How It Works
+
+Claude Code calls your `--status-command` binary after each tool invocation, piping a JSON payload with session metadata. `claude-status` reads that payload, parses it with `jq`, and renders each segment using `gum` — styled, colored, and joined into a single line.
+
+The plugin (`claude-status.plugin.zsh`) installs the `claude-status` binary into `~/.local/bin/` via a symlink so it's always on your `$PATH`.
+
+## Quickstart
+
+**1. Install via zinit** in your `~/.zshrc`:
+
+```zsh
+zinit light claude-contrib/claude-status
+```
+
+**2. Set the status command** in `~/.claude/settings.json`:
+
+```json
+{
+  "statusCommand": "claude-status"
+}
+```
+
+Restart your shell. The status line appears automatically on every Claude Code tool call.
+
+## What You Get
+
+Each segment is independently styled and only shown when relevant:
+
+| Segment | Example | Description |
+|---------|---------|-------------|
+| Context bar | `⣿⣿⣿⣿⣀⣀⣀⣀⣀⣀ 42%` | 10-char progress bar + percentage; green → yellow → red at 70%/90% |
+| Cost | ` 0.13` | Total session cost in USD |
+| Agent | `⚡ sub-agent` | Active agent name — hidden when not in agent mode |
+| Model | `claude-sonnet-4-6` | Display name of the active model |
+| Directory | `  my-project` | Basename of the current working directory |
+| Branch | ` main` | Active git branch (uses worktree branch when inside a worktree) |
+| Worktree | `󰙅 feature-x` | Active worktree name — hidden when not in a worktree |
+| Time | `󱑓 3m 42s` | Total session duration; shows hours when over 60 minutes |
+| Diff | `+84 -12` | Lines added (green) and removed (red) during the session |
+
+## Dependencies
+
+- [`jq`](https://jqlang.github.io/jq/) — JSON parsing
+- [`gum`](https://github.com/charmbracelet/gum) — terminal styling
+
+Install both before using the plugin:
+
+```sh
+brew install jq gum
+```
+
+## The claude-contrib Ecosystem
+
+| Repo | What it provides |
+|------|-----------------|
+| [claude-extensions](https://github.com/claude-contrib/claude-extensions) | Hooks, context rules, session automation |
+| [claude-services](https://github.com/claude-contrib/claude-services) | MCP servers — browser, filesystem, sequential thinking |
+| [claude-languages](https://github.com/claude-contrib/claude-languages) | LSP language servers — completions, diagnostics, hover |
+| [claude-skills](https://github.com/claude-contrib/claude-skills) | Slash commands — `/commit`, and more |
+| **claude-status** ← you are here | zinit plugin — live status line for Claude Code |
+
+## License
+
+MIT — use it, fork it, extend it.
