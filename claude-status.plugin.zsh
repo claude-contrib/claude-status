@@ -1,15 +1,13 @@
 #!/usr/bin/env zsh
 # claude-status.plugin.zsh
-# Installs Claude Code statusline to ~/.config/claude/
+# Installs claude-status into $PATH via ~/.local/bin/
 
 _claude_statusline_dir="${0:h}"
-_claude_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/claude"
+_local_bin="${HOME}/.local/bin"
 
-mkdir -p "$_claude_config_dir"
+mkdir -p "$_local_bin"
 
-# Symlinks so `zinit update` automatically reflects upstream changes
-ln -sf "${_claude_statusline_dir}/statusline.sh" "${_claude_config_dir}/statusline.sh"
-ln -sf "${_claude_statusline_dir}/statusline.jq" "${_claude_config_dir}/statusline.jq"
-chmod +x "${_claude_statusline_dir}/statusline.sh"
+chmod +x "${_claude_statusline_dir}/claude-status.sh"
+ln -sf "${_claude_statusline_dir}/claude-status.sh" "${_local_bin}/claude-status"
 
-unset _claude_statusline_dir _claude_config_dir
+unset _claude_statusline_dir _local_bin

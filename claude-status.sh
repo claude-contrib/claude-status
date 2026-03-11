@@ -22,7 +22,7 @@ parse_input() {
   cost_lines_added=0 cost_lines_removed=0 context_used=0
   claude_agent="" worktree_name="" worktree_branch=""
 
-  eval "$(jq -r -f ~/.config/claude/statusline.jq <<<"$_input")"
+  eval "$(jq -r -f "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/claude-status.jq" <<<"$_input")"
 }
 
 # ── Segments ──────────────────────────────────────────────────────────────────
