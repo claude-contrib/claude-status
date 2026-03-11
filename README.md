@@ -13,6 +13,15 @@ Claude Code calls your `--status-command` binary after each tool invocation, pip
 
 The plugin (`claude-status.plugin.zsh`) installs the `claude-status` binary into `~/.local/bin/` via a symlink so it's always on your `$PATH`.
 
+## Dependencies
+
+- [`jq`](https://jqlang.github.io/jq/) — JSON parsing
+- [`gum`](https://github.com/charmbracelet/gum) — terminal styling
+
+```sh
+brew install jq gum
+```
+
 ## Quickstart
 
 **1. Install via zinit** in your `~/.zshrc`:
@@ -58,17 +67,6 @@ Set it in your `~/.zshrc` before the zinit load line:
 ```sh
 export CLAUDE_CODE_STATUS_THEME=light
 zinit light claude-contrib/claude-status
-```
-
-## Dependencies
-
-- [`jq`](https://jqlang.github.io/jq/) — JSON parsing
-- [`gum`](https://github.com/charmbracelet/gum) — terminal styling
-
-Install both before using the plugin:
-
-```sh
-brew install jq gum
 ```
 
 ## The claude-contrib Ecosystem
