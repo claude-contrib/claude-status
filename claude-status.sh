@@ -26,8 +26,18 @@ parse_input() {
 }
 
 # ── Colors ────────────────────────────────────────────────────────────────────
+# Set CLAUDE_STATUS_THEME=light for light terminal backgrounds (default: dark)
 
-readonly _DIM_FG=238   # separators, context %, time
+if [[ "${CLAUDE_STATUS_THEME:-dark}" == "light" ]]; then
+  _DIM_FG=244   _COST_FG=130  _AGENT_FG=26   _MODEL_FG=25
+  _DIR_FG=24    _BRANCH_FG=125 _WORKTREE_FG=94
+  _ADD_FG=28    _DEL_FG=124   _BAR_YELLOW=136
+else
+  _DIM_FG=238   _COST_FG=215  _AGENT_FG=87   _MODEL_FG=123
+  _DIR_FG=111   _BRANCH_FG=213 _WORKTREE_FG=208
+  _ADD_FG=114   _DEL_FG=203   _BAR_YELLOW=220
+fi
+readonly _DIM_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORKTREE_FG _ADD_FG _DEL_FG _BAR_YELLOW
 
 # ── Segments ──────────────────────────────────────────────────────────────────
 
@@ -50,11 +60,11 @@ context_segment() {
   bar_off=$(printf "%${empty}s" | tr ' ' '⣀')
 
   if [ "$context_used" -ge 90 ]; then
-    bar_fg=203 # red
+    bar_fg=$_DEL_FG
   elif [ "$context_used" -ge 70 ]; then
-    bar_fg=220 # yellow
+    bar_fg=$_BAR_YELLOW
   else
-    bar_fg=114 # green
+    bar_fg=$_ADD_FG
   fi
 
   local filled_s="" empty_s=""
@@ -73,7 +83,7 @@ context_segment() {
 cost_segment() {
   local cost_fmt
   cost_fmt=$(printf ' %.2f' "$cost_usd")
-  gum style --foreground 215 -- "$cost_fmt"
+  gum style --foreground "$_COST_FG" -- "$cost_fmt"
 }
 
 # agent_segment
@@ -84,7 +94,7 @@ cost_segment() {
 # Globals: claude_agent
 # Outputs: gum-styled agent string to stdout, or empty
 agent_segment() {
-  [ -n "$claude_agent" ] && gum style --foreground 87 -- "⚡ $claude_agent"
+  [ -n "$claude_agent" ] && gum style --foreground "$_AGENT_FG" -- "⚡ $claude_agent"
 }
 
 # model_segment
@@ -94,7 +104,7 @@ agent_segment() {
 # Globals: claude_model
 # Outputs: gum-styled model string to stdout
 model_segment() {
-  gum style --foreground 123 -- "$claude_model"
+  gum style --foreground "$_MODEL_FG" -- "$claude_model"
 }
 
 # dir_segment
@@ -104,7 +114,7 @@ model_segment() {
 # Globals: current_dir
 # Outputs: gum-styled directory string to stdout
 dir_segment() {
-  gum style --foreground 111 -- "  ${current_dir##*/}"
+  gum style --foreground "$_DIR_FG" -- "  ${current_dir##*/}"
 }
 
 # branch_segment
@@ -118,7 +128,7 @@ dir_segment() {
 branch_segment() {
   local branch="$worktree_branch"
   [ -z "$branch" ] && branch=$(git -C "$current_dir" branch --show-current 2>/dev/null)
-  [ -n "$branch" ] && gum style --foreground 213 -- " $branch"
+  [ -n "$branch" ] && gum style --foreground "$_BRANCH_FG" -- " $branch"
 }
 
 # worktree_segment
@@ -129,7 +139,7 @@ branch_segment() {
 # Globals: worktree_name
 # Outputs: gum-styled worktree string to stdout, or empty
 worktree_segment() {
-  [ -n "$worktree_name" ] && gum style --foreground 208 -- "󰙅 $worktree_name"
+  [ -n "$worktree_name" ] && gum style --foreground "$_WORKTREE_FG" -- "󰙅 $worktree_name"
 }
 
 # time_segment
@@ -155,7 +165,7 @@ time_segment() {
 # Globals: cost_lines_added, cost_lines_removed
 # Outputs: two gum-styled strings concatenated to stdout
 diff_segment() {
-  printf '%s' "$(gum style --foreground 114 -- "+${cost_lines_added}") $(gum style --foreground 203 -- "-${cost_lines_removed}")"
+  printf '%s' "$(gum style --foreground "$_ADD_FG" -- "+${cost_lines_added}") $(gum style --foreground "$_DEL_FG" -- "-${cost_lines_removed}")"
 }
 
 # main
