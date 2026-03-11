@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.0](https://github.com/claude-contrib/claude-status/releases/tag/v1.0.0) (2026-03-11)
+## [0.0.1](https://github.com/claude-contrib/claude-status/releases/tag/v0.0.1) (2026-03-11)
 
 
 ### Features
