@@ -28,15 +28,15 @@ parse_input() {
 # Set CLAUDE_CODE_STATUS_THEME=light for light terminal backgrounds (default: dark)
 
 if [[ "${CLAUDE_CODE_STATUS_THEME:-dark}" == "light" ]]; then
-  _SEP_FG=250 _MUTED_FG=244
-  _COST_FG=130 _AGENT_FG=26 _MODEL_FG=25
-  _DIR_FG=24 _BRANCH_FG=125 _WORKTREE_FG=94
-  _ADD_FG=28 _DEL_FG=124 _BAR_YELLOW=136
+  _SEP_FG="188;188;188" _MUTED_FG="128;128;128"
+  _COST_FG="175;95;0"   _AGENT_FG="0;95;215"    _MODEL_FG="0;95;175"
+  _DIR_FG="0;95;135"    _BRANCH_FG="175;0;95"   _WORKTREE_FG="135;95;0"
+  _ADD_FG="0;135;0"     _DEL_FG="175;0;0"       _BAR_YELLOW="175;135;0"
 else
-  _SEP_FG=238 _MUTED_FG=242
-  _COST_FG=215 _AGENT_FG=87 _MODEL_FG=123
-  _DIR_FG=111 _BRANCH_FG=213 _WORKTREE_FG=208
-  _ADD_FG=114 _DEL_FG=203 _BAR_YELLOW=220
+  _SEP_FG="68;68;68"      _MUTED_FG="108;108;108"
+  _COST_FG="243;120;153"  _AGENT_FG="95;255;255"   _MODEL_FG="108;215;201"
+  _DIR_FG="135;175;255"   _BRANCH_FG="239;172;220" _WORKTREE_FG="255;135;0"
+  _ADD_FG="135;215;135"   _DEL_FG="255;95;95"      _BAR_YELLOW="255;215;0"
 fi
 readonly _SEP_FG _MUTED_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORKTREE_FG _ADD_FG _DEL_FG _BAR_YELLOW
 
@@ -46,9 +46,7 @@ readonly _SEP_FG _MUTED_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORK
 #
 # Outputs text with ANSI color. COLOR is either a 256-color index or
 # an exact "R;G;B" truecolor value.
-_printf_color() {
-  printf '\033[38;5;%sm%s\033[0m' "$1" "$2"
-}
+_printf_color() { printf '\033[38;2;%sm%s\033[0m' "$1" "$2"; }
 
 # ── Segments ────────────────────────────────────────────────────────────────────────────────
 
