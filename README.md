@@ -81,7 +81,6 @@ zinit light claude-contrib/claude-status
 | [claude-extensions](https://github.com/claude-contrib/claude-extensions) | Hooks, context rules, session automation |
 | [claude-services](https://github.com/claude-contrib/claude-services) | MCP servers — browser, filesystem, sequential thinking |
 | [claude-languages](https://github.com/claude-contrib/claude-languages) | LSP language servers — completions, diagnostics, hover |
-| [claude-skills](https://github.com/claude-contrib/claude-skills) | Slash commands — `/commit`, and more |
 | **claude-status** ← you are here | zinit plugin — live status line for Claude Code |
 
 ## License
