@@ -52,7 +52,7 @@ Each segment is independently styled and only shown when relevant:
 | Segment | Example | Description |
 |---------|---------|-------------|
 | Context bar | `⣿⣿⣿⣿⣀⣀⣀⣀⣀⣀ 42%` | 10-char progress bar + percentage; green → yellow → red at 70%/90% |
-| Cost | ` 0.13` | Total session cost in USD |
+| Cost | `$ 0.13` | Total session cost in USD |
 | Agent | `⚡ sub-agent` | Active agent name — hidden when not in agent mode |
 | Model | `claude-sonnet-4-6` | Display name of the active model |
 | Directory | `  my-project` | Basename of the current working directory |
