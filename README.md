@@ -11,17 +11,16 @@ Claude Code's `statusLine` command fires on every tool call — but the raw JSON
 
 ## How It Works
 
-Claude Code calls your `statusLine` command after each tool invocation, piping a JSON payload with session metadata. `claude-status` reads that payload, parses it with `jq`, and renders each segment using `gum` — styled, colored, and joined into a single line.
+Claude Code calls your `statusLine` command after each tool invocation, piping a JSON payload with session metadata. `claude-status` reads that payload, parses it with `jq`, and renders each segment as ANSI 256-color text — styled, colored, and joined into a single line.
 
 The plugin (`claude-status.plugin.zsh`) installs the `claude-status` binary into `~/.local/bin/` via a symlink so it's always on your `$PATH`.
 
 ## Dependencies
 
 - [`jq`](https://jqlang.github.io/jq/) — JSON parsing
-- [`gum`](https://github.com/charmbracelet/gum) — terminal styling
 
 ```sh
-brew install jq gum
+brew install jq
 ```
 
 ## Quickstart

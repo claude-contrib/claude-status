@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # claude-status.sh — Claude Code status line
-# Requires: jq, gum
-
-# Force color output — gum disables colors when stdout is not a TTY
-export CLICOLOR_FORCE=1
+# Requires: jq
 
 # Capture stdin immediately before any subcommand can consume it
 _input=$(cat)
@@ -47,9 +44,9 @@ readonly _SEP_FG _MUTED_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORK
 
 # _printf_color COLOR VALUE
 #
-# Outputs a gum format template fragment: {{ Color "COLOR" "" "VALUE" }}
+# Outputs text wrapped in ANSI 256-color escape codes.
 # All segments use this to build their output.
-_printf_color() { printf '{{ Color "%s" "" "%s" }}' "$1" "$2"; }
+_printf_color() { printf '\033[38;5;%sm%s\033[0m' "$1" "$2"; }
 
 # ── Segments ────────────────────────────────────────────────────────────────────────────────
 
@@ -221,7 +218,8 @@ main() {
   segments+=("$sep")
   segments+=("$(diff_segment)")
 
-  printf '%s' "${segments[@]}" | COLORTERM="" gum format --type template
+  printf '%s' "${segments[@]}"
+  printf '\n'
 }
 
 main
