@@ -138,7 +138,7 @@ dir_segment() {
 branch_segment() {
   local branch="$worktree_branch"
   [ -z "$branch" ] && branch=$(git -C "$current_dir" branch --show-current 2>/dev/null)
-  [ -n "$branch" ] && _printf_color "$_BRANCH_FG" " $branch"
+  [ -n "$branch" ] && _printf_color "$_BRANCH_FG" " $branch"
 }
 
 # worktree_segment
@@ -149,7 +149,7 @@ branch_segment() {
 # Globals: worktree_name
 # Outputs: gum template fragment to stdout, or empty
 worktree_segment() {
-  [ -n "$worktree_name" ] && _printf_color "$_WORKTREE_FG" "󰉅 $worktree_name"
+  [ -n "$worktree_name" ] && _printf_color "$_WORKTREE_FG" "󰙅 $worktree_name"
 }
 
 # time_segment
