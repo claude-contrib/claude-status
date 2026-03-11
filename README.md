@@ -51,10 +51,10 @@ Each segment is independently styled and only shown when relevant:
 
 | Variable | Values | Default | Description |
 |----------|--------|---------|-------------|
-| `CLAUDE_CODE_THEME` | `dark` \| `light` | `dark` | Switch the color palette for light terminal backgrounds |
+| `CLAUDE_CODE_STATUS_THEME` | `dark` \| `light` | `dark` | Switch the color palette for light terminal backgrounds |
 
 ```sh
-export CLAUDE_CODE_THEME=light
+export CLAUDE_CODE_STATUS_THEME=light
 ```
 
 ## Dependencies

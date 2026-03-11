@@ -26,18 +26,20 @@ parse_input() {
 }
 
 # ── Colors ────────────────────────────────────────────────────────────────────
-# Set CLAUDE_CODE_THEME=light for light terminal backgrounds (default: dark)
+# Set CLAUDE_CODE_STATUS_THEME=light for light terminal backgrounds (default: dark)
 
-if [[ "${CLAUDE_CODE_THEME:-dark}" == "light" ]]; then
-  _DIM_FG=244   _COST_FG=130  _AGENT_FG=26   _MODEL_FG=25
+if [[ "${CLAUDE_CODE_STATUS_THEME:-dark}" == "light" ]]; then
+  _SEP_FG=250   _MUTED_FG=244
+  _COST_FG=130  _AGENT_FG=26   _MODEL_FG=25
   _DIR_FG=24    _BRANCH_FG=125 _WORKTREE_FG=94
   _ADD_FG=28    _DEL_FG=124   _BAR_YELLOW=136
 else
-  _DIM_FG=238   _COST_FG=215  _AGENT_FG=87   _MODEL_FG=123
+  _SEP_FG=238   _MUTED_FG=242
+  _COST_FG=215  _AGENT_FG=87   _MODEL_FG=123
   _DIR_FG=111   _BRANCH_FG=213 _WORKTREE_FG=208
   _ADD_FG=114   _DEL_FG=203   _BAR_YELLOW=220
 fi
-readonly _DIM_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORKTREE_FG _ADD_FG _DEL_FG _BAR_YELLOW
+readonly _SEP_FG _MUTED_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORKTREE_FG _ADD_FG _DEL_FG _BAR_YELLOW
 
 # ── Segments ──────────────────────────────────────────────────────────────────
 
@@ -69,9 +71,9 @@ context_segment() {
 
   local filled_s="" empty_s=""
   [ -n "$bar_on" ] && filled_s=$(gum style --foreground "$bar_fg" -- "$bar_on")
-  [ -n "$bar_off" ] && empty_s=$(gum style --foreground "$_DIM_FG" -- "$bar_off")
+  [ -n "$bar_off" ] && empty_s=$(gum style --foreground "$_SEP_FG" -- "$bar_off")
 
-  printf '%s' "${filled_s}${empty_s} $(gum style --foreground "$_DIM_FG" -- "${context_used}%")"
+  printf '%s' "${filled_s}${empty_s} $(gum style --foreground "$_MUTED_FG" -- "${context_used}%")"
 }
 
 # cost_segment
@@ -154,7 +156,7 @@ time_segment() {
   mins=$(((cost_duration_ms % 3600000) / 60000))
   secs=$(((cost_duration_ms % 60000) / 1000))
   [ "$hours" -gt 0 ] && fmt="${hours}h ${mins}m ${secs}s" || fmt="${mins}m ${secs}s"
-  gum style --foreground "$_DIM_FG" -- "󱑓 ${fmt}"
+  gum style --foreground "$_MUTED_FG" -- "󱑓 ${fmt}"
 }
 
 # diff_segment
@@ -179,7 +181,7 @@ main() {
   parse_input
 
   local sep
-  sep=$(gum style --foreground "$_DIM_FG" -- "  ")
+  sep=$(gum style --foreground "$_SEP_FG" -- "  ")
 
   local segments=()
   segments+=("$(context_segment)")
