@@ -25,6 +25,10 @@ parse_input() {
   eval "$(jq -r -f "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/claude-status.jq" <<<"$_input")"
 }
 
+# ── Colors ────────────────────────────────────────────────────────────────────
+
+readonly _DIM_FG=238   # separators, context %, time
+
 # ── Segments ──────────────────────────────────────────────────────────────────
 
 # context_segment
@@ -55,9 +59,9 @@ context_segment() {
 
   local filled_s="" empty_s=""
   [ -n "$bar_on" ] && filled_s=$(gum style --foreground "$bar_fg" -- "$bar_on")
-  [ -n "$bar_off" ] && empty_s=$(gum style --foreground 238 -- "$bar_off")
+  [ -n "$bar_off" ] && empty_s=$(gum style --foreground "$_DIM_FG" -- "$bar_off")
 
-  printf '%s' "${filled_s}${empty_s} $(gum style --foreground 250 -- "${context_used}%")"
+  printf '%s' "${filled_s}${empty_s} $(gum style --foreground "$_DIM_FG" -- "${context_used}%")"
 }
 
 # cost_segment
@@ -140,7 +144,7 @@ time_segment() {
   mins=$(((cost_duration_ms % 3600000) / 60000))
   secs=$(((cost_duration_ms % 60000) / 1000))
   [ "$hours" -gt 0 ] && fmt="${hours}h ${mins}m ${secs}s" || fmt="${mins}m ${secs}s"
-  gum style --foreground 250 -- "󱑓 ${fmt}"
+  gum style --foreground "$_DIM_FG" -- "󱑓 ${fmt}"
 }
 
 # diff_segment
@@ -165,7 +169,7 @@ main() {
   parse_input
 
   local sep
-  sep=$(gum style --foreground 238 -- "  ")
+  sep=$(gum style --foreground "$_DIM_FG" -- "  ")
 
   local segments=()
   segments+=("$(context_segment)")
