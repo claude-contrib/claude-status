@@ -36,7 +36,10 @@ zinit light claude-contrib/claude-status
 
 ```json
 {
-  "statusCommand": "claude-status"
+  "statusLine": {
+    "type": "command",
+    "command": "claude-status"
+  }
 }
 ```
 
