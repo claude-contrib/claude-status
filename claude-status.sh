@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ~/.claude/statusline.sh — Claude Code status line
+# claude-status.sh — Claude Code status line
 # Requires: jq, gum
 
 # Force color output — gum disables colors when stdout is not a TTY
@@ -25,23 +25,31 @@ parse_input() {
   eval "$(jq -r -f "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/claude-status.jq" <<<"$_input")"
 }
 
-# ── Colors ────────────────────────────────────────────────────────────────────
+# ── Colors ────────────────────────────────────────────────────────────────────────────────
 # Set CLAUDE_CODE_STATUS_THEME=light for light terminal backgrounds (default: dark)
 
 if [[ "${CLAUDE_CODE_STATUS_THEME:-dark}" == "light" ]]; then
-  _SEP_FG=250   _MUTED_FG=244
-  _COST_FG=130  _AGENT_FG=26   _MODEL_FG=25
-  _DIR_FG=24    _BRANCH_FG=125 _WORKTREE_FG=94
-  _ADD_FG=28    _DEL_FG=124   _BAR_YELLOW=136
+  _SEP_FG=250 _MUTED_FG=244
+  _COST_FG=130 _AGENT_FG=26 _MODEL_FG=25
+  _DIR_FG=24 _BRANCH_FG=125 _WORKTREE_FG=94
+  _ADD_FG=28 _DEL_FG=124 _BAR_YELLOW=136
 else
-  _SEP_FG=238   _MUTED_FG=242
-  _COST_FG=215  _AGENT_FG=87   _MODEL_FG=123
-  _DIR_FG=111   _BRANCH_FG=213 _WORKTREE_FG=208
-  _ADD_FG=114   _DEL_FG=203   _BAR_YELLOW=220
+  _SEP_FG=238 _MUTED_FG=242
+  _COST_FG=215 _AGENT_FG=87 _MODEL_FG=123
+  _DIR_FG=111 _BRANCH_FG=213 _WORKTREE_FG=208
+  _ADD_FG=114 _DEL_FG=203 _BAR_YELLOW=220
 fi
 readonly _SEP_FG _MUTED_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORKTREE_FG _ADD_FG _DEL_FG _BAR_YELLOW
 
-# ── Segments ──────────────────────────────────────────────────────────────────
+# ── Template helper ──────────────────────────────────────────────────────────────────────────
+
+# _printf_color COLOR VALUE
+#
+# Outputs a gum format template fragment: {{ Color "COLOR" "" "VALUE" }}
+# All segments use this to build their output.
+_printf_color() { printf '{{ Color "%s" "" "%s" }}' "$1" "$2"; }
+
+# ── Segments ────────────────────────────────────────────────────────────────────────────────
 
 # context_segment
 #
@@ -50,7 +58,7 @@ readonly _SEP_FG _MUTED_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORK
 # usage crosses 70% and 90% thresholds.
 #
 # Globals: context_used
-# Outputs: gum-styled bar + percentage to stdout
+# Outputs: gum template fragment to stdout
 context_segment() {
   local bar_width=10
   local filled=$((context_used * bar_width / 100))
@@ -69,23 +77,23 @@ context_segment() {
     bar_fg=$_ADD_FG
   fi
 
-  local filled_s="" empty_s=""
-  [ -n "$bar_on" ] && filled_s=$(gum style --foreground "$bar_fg" -- "$bar_on")
-  [ -n "$bar_off" ] && empty_s=$(gum style --foreground "$_SEP_FG" -- "$bar_off")
-
-  printf '%s' "${filled_s}${empty_s} $(gum style --foreground "$_MUTED_FG" -- "${context_used}%")"
+  local out=""
+  [ -n "$bar_on" ] && out+="$(_printf_color "$bar_fg" "$bar_on")"
+  [ -n "$bar_off" ] && out+="$(_printf_color "$_SEP_FG" "$bar_off")"
+  out+=" $(_printf_color "$_MUTED_FG" "${context_used}%")"
+  printf '%s' "$out"
 }
 
 # cost_segment
 #
-# Renders the total session cost in USD, formatted as $X.XX (2 decimal places).
+# Renders the total session cost in USD, formatted as $ X.XX (2 decimal places).
 #
 # Globals: cost_usd
-# Outputs: gum-styled cost string to stdout
+# Outputs: gum template fragment to stdout
 cost_segment() {
   local cost_fmt
-  cost_fmt=$(printf ' %.2f' "$cost_usd")
-  gum style --foreground "$_COST_FG" -- "$cost_fmt"
+  cost_fmt=$(printf '$ %.2f' "$cost_usd")
+  _printf_color "$_COST_FG" "$cost_fmt"
 }
 
 # agent_segment
@@ -94,9 +102,9 @@ cost_segment() {
 # Outputs nothing when no agent is active.
 #
 # Globals: claude_agent
-# Outputs: gum-styled agent string to stdout, or empty
+# Outputs: gum template fragment to stdout, or empty
 agent_segment() {
-  [ -n "$claude_agent" ] && gum style --foreground "$_AGENT_FG" -- "⚡ $claude_agent"
+  [ -n "$claude_agent" ] && _printf_color "$_AGENT_FG" "⚡ $claude_agent"
 }
 
 # model_segment
@@ -104,9 +112,9 @@ agent_segment() {
 # Renders the active model name.
 #
 # Globals: claude_model
-# Outputs: gum-styled model string to stdout
+# Outputs: gum template fragment to stdout
 model_segment() {
-  gum style --foreground "$_MODEL_FG" -- "$claude_model"
+  _printf_color "$_MODEL_FG" "$claude_model"
 }
 
 # dir_segment
@@ -114,9 +122,9 @@ model_segment() {
 # Renders the current working directory basename.
 #
 # Globals: current_dir
-# Outputs: gum-styled directory string to stdout
+# Outputs: gum template fragment to stdout
 dir_segment() {
-  gum style --foreground "$_DIR_FG" -- "  ${current_dir##*/}"
+  _printf_color "$_DIR_FG" "  ${current_dir##*/}"
 }
 
 # branch_segment
@@ -126,22 +134,22 @@ dir_segment() {
 # Outputs nothing when the branch cannot be determined.
 #
 # Globals: current_dir, worktree_branch
-# Outputs: gum-styled branch string to stdout, or empty
+# Outputs: gum template fragment to stdout, or empty
 branch_segment() {
   local branch="$worktree_branch"
   [ -z "$branch" ] && branch=$(git -C "$current_dir" branch --show-current 2>/dev/null)
-  [ -n "$branch" ] && gum style --foreground "$_BRANCH_FG" -- " $branch"
+  [ -n "$branch" ] && _printf_color "$_BRANCH_FG" " $branch"
 }
 
 # worktree_segment
 #
-# Renders the active worktree name prefixed with 󰙅.
+# Renders the active worktree name prefixed with 󰉅.
 # Outputs nothing when not inside a worktree.
 #
 # Globals: worktree_name
-# Outputs: gum-styled worktree string to stdout, or empty
+# Outputs: gum template fragment to stdout, or empty
 worktree_segment() {
-  [ -n "$worktree_name" ] && gum style --foreground "$_WORKTREE_FG" -- "󰙅 $worktree_name"
+  [ -n "$worktree_name" ] && _printf_color "$_WORKTREE_FG" "󰉅 $worktree_name"
 }
 
 # time_segment
@@ -149,14 +157,14 @@ worktree_segment() {
 # Renders the total session duration as Xm Ys, or Xh Ym Ys when over an hour.
 #
 # Globals: cost_duration_ms
-# Outputs: gum-styled duration string to stdout
+# Outputs: gum template fragment to stdout
 time_segment() {
   local hours mins secs fmt
   hours=$((cost_duration_ms / 3600000))
   mins=$(((cost_duration_ms % 3600000) / 60000))
   secs=$(((cost_duration_ms % 60000) / 1000))
   [ "$hours" -gt 0 ] && fmt="${hours}h ${mins}m ${secs}s" || fmt="${mins}m ${secs}s"
-  gum style --foreground "$_MUTED_FG" -- "󱑓 ${fmt}"
+  _printf_color "$_MUTED_FG" "󱑓 ${fmt}"
 }
 
 # diff_segment
@@ -165,14 +173,15 @@ time_segment() {
 # Added in green, removed in red.
 #
 # Globals: cost_lines_added, cost_lines_removed
-# Outputs: two gum-styled strings concatenated to stdout
+# Outputs: two gum template fragments concatenated to stdout
 diff_segment() {
-  printf '%s' "$(gum style --foreground "$_ADD_FG" -- "+${cost_lines_added}") $(gum style --foreground "$_DEL_FG" -- "-${cost_lines_removed}")"
+  printf '%s %s' "$(_printf_color "$_ADD_FG" "+${cost_lines_added}")" "$(_printf_color "$_DEL_FG" "-${cost_lines_removed}")"
 }
 
 # main
 #
-# Parses input then assembles all segments into a single status line.
+# Parses input then assembles all segment template fragments into a single
+# status line rendered with one gum format --type template call.
 # Optional segments (agent, branch, worktree) are skipped when not active.
 # Order: bar% | cost | ⚡ agent | model | dir | branch | worktree | time | +/-
 #
@@ -181,7 +190,7 @@ main() {
   parse_input
 
   local sep
-  sep=$(gum style --foreground "$_SEP_FG" -- "  ")
+  sep=$(_printf_color "$_SEP_FG" "  ")
 
   local segments=()
   segments+=("$(context_segment)")
@@ -210,7 +219,7 @@ main() {
   segments+=("$sep")
   segments+=("$(diff_segment)")
 
-  gum join --horizontal "${segments[@]}"
+  printf '%s' "${segments[@]}" | gum format --type template
 }
 
 main
