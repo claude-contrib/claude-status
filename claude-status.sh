@@ -34,8 +34,8 @@ if [[ "${CLAUDE_CODE_STATUS_THEME:-dark}" == "light" ]]; then
   _ADD_FG=28 _DEL_FG=124 _BAR_YELLOW=136
 else
   _SEP_FG=238 _MUTED_FG=242
-  _COST_FG=208 _AGENT_FG=87 _MODEL_FG=123
-  _DIR_FG=111 _BRANCH_FG=207 _WORKTREE_FG=208
+  _COST_FG=215 _AGENT_FG=87 _MODEL_FG=123
+  _DIR_FG=111 _BRANCH_FG=213 _WORKTREE_FG=208
   _ADD_FG=114 _DEL_FG=203 _BAR_YELLOW=220
 fi
 readonly _SEP_FG _MUTED_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORKTREE_FG _ADD_FG _DEL_FG _BAR_YELLOW
@@ -44,9 +44,11 @@ readonly _SEP_FG _MUTED_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORK
 
 # _printf_color COLOR VALUE
 #
-# Outputs text wrapped in ANSI 256-color escape codes.
-# All segments use this to build their output.
-_printf_color() { printf '\033[38;5;%sm%s\033[0m' "$1" "$2"; }
+# Outputs text with ANSI color. COLOR is either a 256-color index or
+# an exact "R;G;B" truecolor value.
+_printf_color() {
+  printf '\033[38;5;%sm%s\033[0m' "$1" "$2"
+}
 
 # ── Segments ────────────────────────────────────────────────────────────────────────────────
 
