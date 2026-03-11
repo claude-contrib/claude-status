@@ -26,9 +26,9 @@ parse_input() {
 }
 
 # ── Colors ────────────────────────────────────────────────────────────────────
-# Set CLAUDE_STATUS_THEME=light for light terminal backgrounds (default: dark)
+# Set CLAUDE_CODE_THEME=light for light terminal backgrounds (default: dark)
 
-if [[ "${CLAUDE_STATUS_THEME:-dark}" == "light" ]]; then
+if [[ "${CLAUDE_CODE_THEME:-dark}" == "light" ]]; then
   _DIM_FG=244   _COST_FG=130  _AGENT_FG=26   _MODEL_FG=25
   _DIR_FG=24    _BRANCH_FG=125 _WORKTREE_FG=94
   _ADD_FG=28    _DEL_FG=124   _BAR_YELLOW=136

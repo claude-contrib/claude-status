@@ -47,6 +47,16 @@ Each segment is independently styled and only shown when relevant:
 | Time | `󱑓 3m 42s` | Total session duration; shows hours when over 60 minutes |
 | Diff | `+84 -12` | Lines added (green) and removed (red) during the session |
 
+## Configuration
+
+| Variable | Values | Default | Description |
+|----------|--------|---------|-------------|
+| `CLAUDE_CODE_THEME` | `dark` \| `light` | `dark` | Switch the color palette for light terminal backgrounds |
+
+```sh
+export CLAUDE_CODE_THEME=light
+```
+
 ## Dependencies
 
 - [`jq`](https://jqlang.github.io/jq/) — JSON parsing
