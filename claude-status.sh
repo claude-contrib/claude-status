@@ -22,6 +22,17 @@ parse_input() {
   claude_agent="" worktree_name="" worktree_branch=""
 
   eval "$(jq -r -f "$_source_dir/claude-status.jq" <<<"$_input")"
+
+  # Detect linked worktree when the JSON payload has no worktree info
+  if [ -z "$worktree_name" ] && [ -n "$current_dir" ]; then
+    local git_dir git_common_dir
+    git_dir=$(git -C "$current_dir" rev-parse --git-dir 2>/dev/null)
+    git_common_dir=$(git -C "$current_dir" rev-parse --git-common-dir 2>/dev/null)
+    if [ -n "$git_dir" ] && [ -n "$git_common_dir" ] \
+      && [ "$(realpath "$git_dir" 2>/dev/null)" != "$(realpath "$git_common_dir" 2>/dev/null)" ]; then
+      worktree_name=$(basename "$(git -C "$current_dir" rev-parse --show-toplevel 2>/dev/null)")
+    fi
+  fi
 }
 
 # ── Theme ─────────────────────────────────────────────────────────────────────────────────
