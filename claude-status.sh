@@ -91,7 +91,7 @@ context_segment() {
 # Outputs: gum template fragment to stdout
 cost_segment() {
   local cost_fmt
-  cost_fmt=$(printf '$ %.2f' "$cost_usd")
+  cost_fmt=$(printf '$%.2f' "$cost_usd")
   _printf_color "$_COST_FG" "$cost_fmt"
 }
 
