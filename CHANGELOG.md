@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/claude-contrib/claude-status/compare/v0.2.0...v0.3.0) (2026-03-13)
+
+
+### Features
+
+* add Catppuccin theme system with external JSON theme files ([350208b](https://github.com/claude-contrib/claude-status/commit/350208bfba00a10a776b066dfc4e16fd6c37a2c2))
+* detect git worktree when not started with --worktree flag ([386150a](https://github.com/claude-contrib/claude-status/commit/386150a7aa22b94a11d0b18e86fe13b500115d24))
+
 ## [0.2.0](https://github.com/claude-contrib/claude-status/compare/v0.1.0...v0.2.0) (2026-03-11)
 
 
