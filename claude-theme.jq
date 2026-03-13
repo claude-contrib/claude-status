@@ -1,0 +1,11 @@
+"theme_sep_fg="       + (.sep_fg      | @sh),
+"theme_muted_fg="     + (.muted_fg    | @sh),
+"theme_cost_fg="      + (.cost_fg     | @sh),
+"theme_agent_fg="     + (.agent_fg    | @sh),
+"theme_model_fg="     + (.model_fg    | @sh),
+"theme_dir_fg="       + (.dir_fg      | @sh),
+"theme_branch_fg="    + (.branch_fg   | @sh),
+"theme_worktree_fg="  + (.worktree_fg | @sh),
+"theme_add_fg="       + (.add_fg      | @sh),
+"theme_del_fg="       + (.del_fg      | @sh),
+"theme_bar_yellow="   + (.bar_yellow  | @sh)

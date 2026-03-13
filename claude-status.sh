@@ -24,21 +24,16 @@ parse_input() {
   eval "$(jq -r -f "$_source_dir/claude-status.jq" <<<"$_input")"
 }
 
-# ── Colors ────────────────────────────────────────────────────────────────────────────────
-# Set CLAUDE_CODE_STATUS_THEME=light for light terminal backgrounds (default: dark)
+# ── Theme ─────────────────────────────────────────────────────────────────────────────────
+# Set CLAUDE_CODE_STATUS_THEME to a built-in name (catppuccin-mocha, catppuccin-macchiato,
+# catppuccin-frappe, catppuccin-latte) or a path to a custom theme JSON file.
+# Default: catppuccin-mocha
 
-if [[ "${CLAUDE_CODE_STATUS_THEME:-dark}" == "light" ]]; then
-  _SEP_FG="188;188;188" _MUTED_FG="128;128;128"
-  _COST_FG="175;95;0" _AGENT_FG="0;95;215" _MODEL_FG="0;95;175"
-  _DIR_FG="0;95;135" _BRANCH_FG="175;0;95" _WORKTREE_FG="135;95;0"
-  _ADD_FG="0;135;0" _DEL_FG="175;0;0" _BAR_YELLOW="175;135;0"
-else
-  _SEP_FG="68;68;68" _MUTED_FG="108;108;108"
-  _COST_FG="243;120;153" _AGENT_FG="95;255;255" _MODEL_FG="108;215;201"
-  _DIR_FG="135;175;255" _BRANCH_FG="239;172;220" _WORKTREE_FG="254;176;92"
-  _ADD_FG="136;216;138" _DEL_FG="255;95;95" _BAR_YELLOW="255;215;0"
-fi
-readonly _SEP_FG _MUTED_FG _COST_FG _AGENT_FG _MODEL_FG _DIR_FG _BRANCH_FG _WORKTREE_FG _ADD_FG _DEL_FG _BAR_YELLOW
+_theme="${CLAUDE_CODE_STATUS_THEME:-catppuccin-mocha}"
+[[ "$_theme" != */* ]] && _theme="$_source_dir/themes/${_theme}.json"
+
+eval "$(jq -r -f "$_source_dir/claude-theme.jq" "$_theme")"
+readonly theme_sep_fg theme_muted_fg theme_cost_fg theme_agent_fg theme_model_fg theme_dir_fg theme_branch_fg theme_worktree_fg theme_add_fg theme_del_fg theme_bar_yellow
 
 # ── Template helper ──────────────────────────────────────────────────────────────────────────
 
@@ -69,17 +64,17 @@ context_segment() {
   bar_off=$(printf "%${empty}s" | tr ' ' '⣀')
 
   if [ "$context_used" -ge 90 ]; then
-    bar_fg=$_DEL_FG
+    bar_fg=$theme_del_fg
   elif [ "$context_used" -ge 70 ]; then
-    bar_fg=$_BAR_YELLOW
+    bar_fg=$theme_bar_yellow
   else
-    bar_fg=$_ADD_FG
+    bar_fg=$theme_add_fg
   fi
 
   local out=""
   [ -n "$bar_on" ] && out+="$(_printf_color "$bar_fg" "$bar_on")"
-  [ -n "$bar_off" ] && out+="$(_printf_color "$_SEP_FG" "$bar_off")"
-  out+=" $(_printf_color "$_MUTED_FG" "${context_used}%")"
+  [ -n "$bar_off" ] && out+="$(_printf_color "$theme_sep_fg" "$bar_off")"
+  out+=" $(_printf_color "$theme_muted_fg" "${context_used}%")"
   printf '%s' "$out"
 }
 
@@ -92,7 +87,7 @@ context_segment() {
 cost_segment() {
   local cost_fmt
   cost_fmt=$(printf '$%.2f' "$cost_usd")
-  _printf_color "$_COST_FG" "$cost_fmt"
+  _printf_color "$theme_cost_fg" "$cost_fmt"
 }
 
 # agent_segment
@@ -103,7 +98,7 @@ cost_segment() {
 # Globals: claude_agent
 # Outputs: gum template fragment to stdout, or empty
 agent_segment() {
-  [ -n "$claude_agent" ] && _printf_color "$_AGENT_FG" "⚡ $claude_agent"
+  [ -n "$claude_agent" ] && _printf_color "$theme_agent_fg" "⚡ $claude_agent"
 }
 
 # model_segment
@@ -113,7 +108,7 @@ agent_segment() {
 # Globals: claude_model
 # Outputs: gum template fragment to stdout
 model_segment() {
-  _printf_color "$_MODEL_FG" "$claude_model"
+  _printf_color "$theme_model_fg" "$claude_model"
 }
 
 # dir_segment
@@ -123,7 +118,7 @@ model_segment() {
 # Globals: current_dir
 # Outputs: gum template fragment to stdout
 dir_segment() {
-  _printf_color "$_DIR_FG" "  ${current_dir##*/}"
+  _printf_color "$theme_dir_fg" "  ${current_dir##*/}"
 }
 
 # branch_segment
@@ -137,7 +132,7 @@ dir_segment() {
 branch_segment() {
   local branch="$worktree_branch"
   [ -z "$branch" ] && branch=$(git -C "$current_dir" branch --show-current 2>/dev/null)
-  [ -n "$branch" ] && _printf_color "$_BRANCH_FG" " $branch"
+  [ -n "$branch" ] && _printf_color "$theme_branch_fg" " $branch"
 }
 
 # worktree_segment
@@ -148,7 +143,7 @@ branch_segment() {
 # Globals: worktree_name
 # Outputs: gum template fragment to stdout, or empty
 worktree_segment() {
-  [ -n "$worktree_name" ] && _printf_color "$_WORKTREE_FG" "󰙅 $worktree_name"
+  [ -n "$worktree_name" ] && _printf_color "$theme_worktree_fg" "󰙅 $worktree_name"
 }
 
 # time_segment
@@ -163,7 +158,7 @@ time_segment() {
   mins=$(((cost_duration_ms % 3600000) / 60000))
   secs=$(((cost_duration_ms % 60000) / 1000))
   [ "$hours" -gt 0 ] && fmt="${hours}h ${mins}m ${secs}s" || fmt="${mins}m ${secs}s"
-  _printf_color "$_MUTED_FG" "󱑓 ${fmt}"
+  _printf_color "$theme_muted_fg" "󱑓 ${fmt}"
 }
 
 # diff_segment
@@ -174,7 +169,7 @@ time_segment() {
 # Globals: cost_lines_added, cost_lines_removed
 # Outputs: two gum template fragments concatenated to stdout
 diff_segment() {
-  printf '%s %s' "$(_printf_color "$_ADD_FG" "+${cost_lines_added}")" "$(_printf_color "$_DEL_FG" "-${cost_lines_removed}")"
+  printf '%s %s' "$(_printf_color "$theme_add_fg" "+${cost_lines_added}")" "$(_printf_color "$theme_del_fg" "-${cost_lines_removed}")"
 }
 
 # main
@@ -189,7 +184,7 @@ main() {
   parse_input
 
   local sep
-  sep=$(_printf_color "$_SEP_FG" "  ")
+  sep=$(_printf_color "$theme_sep_fg" "  ")
 
   local segments=()
   segments+=("$(context_segment)")

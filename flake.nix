@@ -18,7 +18,9 @@
           installPhase = ''
             mkdir -p $out/bin $out/share/claude-status
             cp claude-status.jq $out/share/claude-status/
+            cp claude-theme.jq $out/share/claude-status/
             cp claude-status.sh $out/share/claude-status/
+            cp -r themes $out/share/claude-status/
             chmod +x $out/share/claude-status/claude-status.sh
             makeWrapper $out/share/claude-status/claude-status.sh $out/bin/claude-status \
               --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.jq ]}

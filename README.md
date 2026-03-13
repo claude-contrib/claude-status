@@ -81,12 +81,12 @@ Each segment is independently styled and only shown when relevant:
 
 | Variable | Values | Default | Description |
 |----------|--------|---------|-------------|
-| `CLAUDE_CODE_STATUS_THEME` | `dark` \| `light` | `dark` | Color palette — `dark` for dark terminal backgrounds, `light` for light ones |
+| `CLAUDE_CODE_STATUS_THEME` | `catppuccin-mocha` \| `catppuccin-macchiato` \| `catppuccin-frappe` \| `catppuccin-latte` \| `/path/to/custom.json` | `catppuccin-mocha` | Built-in [Catppuccin](https://catppuccin.com) theme or absolute path to a custom theme JSON file |
 
 Set it in your `~/.zshrc` before the zinit load line:
 
 ```sh
-export CLAUDE_CODE_STATUS_THEME=light
+export CLAUDE_CODE_STATUS_THEME=catppuccin-latte
 zinit light claude-contrib/claude-status
 ```
 
