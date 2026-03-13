@@ -21,7 +21,7 @@ parse_input() {
   cost_lines_added=0 cost_lines_removed=0 context_used=0
   claude_agent="" worktree_name="" worktree_branch=""
 
-  eval "$(jq -r -f "$_source_dir/claude-status.jq" <<<"$_input")"
+  eval "$(jq -r -f "$_source_dir/queries/claude-status.jq" <<<"$_input")"
 
 }
 
@@ -33,7 +33,7 @@ parse_input() {
 _theme="${CLAUDE_CODE_STATUS_THEME:-catppuccin-mocha}"
 [[ "$_theme" != */* ]] && _theme="$_source_dir/themes/${_theme}.json"
 
-eval "$(jq -r -f "$_source_dir/claude-theme.jq" "$_theme")"
+eval "$(jq -r -f "$_source_dir/queries/claude-theme.jq" "$_theme")"
 readonly theme_sep_fg theme_muted_fg theme_cost_fg theme_agent_fg theme_model_fg theme_dir_fg theme_branch_fg theme_worktree_fg theme_add_fg theme_del_fg theme_bar_yellow
 
 # ── Template helper ──────────────────────────────────────────────────────────────────────────
