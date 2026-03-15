@@ -95,9 +95,11 @@ zinit light claude-contrib/claude-status
 | Repo | What it provides |
 |------|-----------------|
 | [claude-extensions](https://github.com/claude-contrib/claude-extensions) | Hooks, context rules, session automation |
-| [claude-services](https://github.com/claude-contrib/claude-services) | MCP servers — browser, filesystem, sequential thinking |
+| [claude-features](https://github.com/claude-contrib/claude-features) | Devcontainer features for Claude Code and Anthropic tools |
 | [claude-languages](https://github.com/claude-contrib/claude-languages) | LSP language servers — completions, diagnostics, hover |
-| **claude-status** ← you are here | zinit plugin — live status line for Claude Code |
+| [claude-sandbox](https://github.com/claude-contrib/claude-sandbox) | Sandboxed Docker environment for Claude Code |
+| [claude-services](https://github.com/claude-contrib/claude-services) | MCP servers — browser, filesystem, sequential thinking |
+| **claude-status** ← you are here | Live status line — context, cost, model, branch, worktree |
 
 ## License
 
