@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/claude-contrib/claude-status/compare/v0.3.0...v0.3.1) (2026-03-15)
+
+
+### Bug Fixes
+
+* replace tr with bash loops for locale-independent braille bar ([afb3a3e](https://github.com/claude-contrib/claude-status/commit/afb3a3e6bf54121757724b9f63044e3a0cef96a9))
+
 ## [0.3.0](https://github.com/claude-contrib/claude-status/compare/v0.2.0...v0.3.0) (2026-03-13)
 
 
