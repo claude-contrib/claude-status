@@ -41,7 +41,7 @@ inputs.claude-status.url = "github:claude-contrib/claude-status";
 
 ```sh
 git clone https://github.com/claude-contrib/claude-status ~/.local/share/claude-status
-ln -s ~/.local/share/claude-status/claude-status.sh ~/.local/bin/claude-status
+ln -s ~/.local/share/claude-status/claude-status ~/.local/bin/claude-status
 ```
 
 Requires [`jq`](https://jqlang.github.io/jq/) on your `$PATH` (`brew install jq`).

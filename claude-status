@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# claude-status.sh — Claude Code status line
+# claude-status — Claude Code status line
 # Requires: jq
 
 # Capture stdin immediately before any subcommand can consume it
