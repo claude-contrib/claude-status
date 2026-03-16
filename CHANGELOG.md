@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/claude-contrib/claude-status/compare/v0.3.1...v0.4.0) (2026-03-16)
+
+
+### Features
+
+* add docker container detection segment ([40bfd29](https://github.com/claude-contrib/claude-status/commit/40bfd29ca565eb981dffbb97b116b0187e2f822f))
+
 ## [0.3.1](https://github.com/claude-contrib/claude-status/compare/v0.3.0...v0.3.1) (2026-03-15)
 
 
