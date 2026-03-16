@@ -41,11 +41,20 @@ Or in your `flake.nix` inputs:
 inputs.claude-status.url = "github:claude-contrib/claude-status";
 ```
 
-### Manually
+### Manual (zsh)
 
-```sh
+```zsh
 git clone https://github.com/claude-contrib/claude-status ~/.local/share/claude-status
-ln -s ~/.local/share/claude-status/claude-status ~/.local/bin/claude-status
+echo 'source ~/.local/share/claude-status/claude-status.plugin.zsh' >> ~/.zshrc
+source ~/.local/share/claude-status/claude-status.plugin.zsh
+```
+
+### Manual (bash)
+
+```bash
+git clone https://github.com/claude-contrib/claude-status ~/.local/share/claude-status
+echo 'export PATH="$HOME/.local/share/claude-status:$PATH"' >> ~/.bashrc
+export PATH="$HOME/.local/share/claude-status:$PATH"
 ```
 
 Requires [`jq`](https://jqlang.github.io/jq/) on your `$PATH` (`brew install jq`).
