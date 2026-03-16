@@ -8,4 +8,5 @@
 "theme_worktree_fg="  + (.worktree_fg | @sh),
 "theme_add_fg="       + (.add_fg      | @sh),
 "theme_del_fg="       + (.del_fg      | @sh),
-"theme_bar_yellow="   + (.bar_yellow  | @sh)
+"theme_bar_yellow="   + (.bar_yellow  | @sh),
+"theme_docker_fg="    + (.docker_fg   | @sh)

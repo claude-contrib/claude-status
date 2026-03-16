@@ -34,7 +34,7 @@ _theme="${CLAUDE_CODE_STATUS_THEME:-catppuccin-mocha}"
 [[ "$_theme" != */* ]] && _theme="$_source_dir/themes/${_theme}.json"
 
 eval "$(jq -r -f "$_source_dir/queries/claude-theme.jq" "$_theme")"
-readonly theme_sep_fg theme_muted_fg theme_cost_fg theme_agent_fg theme_model_fg theme_dir_fg theme_branch_fg theme_worktree_fg theme_add_fg theme_del_fg theme_bar_yellow
+readonly theme_sep_fg theme_muted_fg theme_cost_fg theme_agent_fg theme_model_fg theme_dir_fg theme_branch_fg theme_worktree_fg theme_add_fg theme_del_fg theme_bar_yellow theme_docker_fg
 
 # ── Template helper ──────────────────────────────────────────────────────────────────────────
 
@@ -160,6 +160,20 @@ worktree_segment() {
   [ -n "$worktree_name" ] && _printf_color "$theme_worktree_fg" "󰙅 $worktree_name"
 }
 
+# docker_segment
+#
+# Renders a Docker icon when running inside a Docker container.
+# Outputs nothing when not inside a container.
+#
+# Outputs: colored Docker icon to stdout, or empty
+docker_segment() {
+  local in_docker=false
+  [ -f /.dockerenv ] && in_docker=true
+  [ "$in_docker" = false ] && grep -q docker /proc/self/cgroup 2>/dev/null && in_docker=true
+  [ "$in_docker" = false ] && [ "${container:-}" = "docker" ] && in_docker=true
+  [ "$in_docker" = true ] && _printf_color "$theme_docker_fg" "  docker"
+}
+
 # time_segment
 #
 # Renders the total session duration as Xm Ys, or Xh Ym Ys when over an hour.
@@ -191,7 +205,7 @@ diff_segment() {
 # Parses input then assembles all segment template fragments into a single
 # status line rendered with one gum format --type template call.
 # Optional segments (agent, branch, worktree) are skipped when not active.
-# Order: bar% | cost | ⚡ agent | model | dir | branch | worktree | time | +/-
+# Order: bar% | cost | ⚡ agent | model | dir | branch | worktree | docker | time | +/-
 #
 # Outputs: status line to stdout
 main() {
@@ -221,6 +235,10 @@ main() {
   local worktree
   worktree=$(worktree_segment)
   [ -n "$worktree" ] && segments+=("$sep" "$worktree")
+
+  local docker
+  docker=$(docker_segment)
+  [ -n "$docker" ] && segments+=("$sep" "$docker")
 
   segments+=("$sep")
   segments+=("$(time_segment)")

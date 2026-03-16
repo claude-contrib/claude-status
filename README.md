@@ -15,6 +15,10 @@ Claude Code calls your `statusLine` command after each tool invocation, piping a
 
 > **Requires a TrueColor terminal.** Colors will not render on terminals that do not support 24-bit color. Most modern terminals qualify: iTerm2, Kitty, Alacritty, Warp, Ghostty, and Windows Terminal all work out of the box.
 
+> **Running in a container or over SSH?** Make sure these environment variables are set:
+> - `LANG=C.UTF-8` — needed for Unicode glyphs (Braille progress bar, Nerd Font icons)
+> - `COLORTERM=truecolor` — needed for 24-bit color passthrough
+
 ## Installation
 
 ### Via zinit
