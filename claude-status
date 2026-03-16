@@ -34,7 +34,7 @@ _theme="${CLAUDE_CODE_STATUS_THEME:-catppuccin-mocha}"
 [[ "$_theme" != */* ]] && _theme="$_source_dir/themes/${_theme}.json"
 
 eval "$(jq -r -f "$_source_dir/queries/claude-theme.jq" "$_theme")"
-readonly theme_sep_fg theme_muted_fg theme_cost_fg theme_agent_fg theme_model_fg theme_dir_fg theme_branch_fg theme_worktree_fg theme_add_fg theme_del_fg theme_bar_yellow theme_docker_fg
+readonly theme_sep_fg theme_muted_fg theme_cost_fg theme_agent_fg theme_model_fg theme_dir_fg theme_branch_fg theme_worktree_fg theme_diff_add_fg theme_diff_del_fg theme_context_bar_fg theme_docker_fg
 
 # ── Template helper ──────────────────────────────────────────────────────────────────────────
 
@@ -65,11 +65,11 @@ context_segment() {
   for ((i = 0; i < empty; i++)); do bar_off+='⣀'; done
 
   if [ "$context_used" -ge 90 ]; then
-    bar_fg=$theme_del_fg
+    bar_fg=$theme_diff_del_fg
   elif [ "$context_used" -ge 70 ]; then
-    bar_fg=$theme_bar_yellow
+    bar_fg=$theme_context_bar_fg
   else
-    bar_fg=$theme_add_fg
+    bar_fg=$theme_diff_add_fg
   fi
 
   local out=""
@@ -197,7 +197,7 @@ time_segment() {
 # Globals: cost_lines_added, cost_lines_removed
 # Outputs: two gum template fragments concatenated to stdout
 diff_segment() {
-  printf '%s %s' "$(_printf_color "$theme_add_fg" "+${cost_lines_added}")" "$(_printf_color "$theme_del_fg" "-${cost_lines_removed}")"
+  printf '%s %s' "$(_printf_color "$theme_diff_add_fg" "+${cost_lines_added}")" "$(_printf_color "$theme_diff_del_fg" "-${cost_lines_removed}")"
 }
 
 # main

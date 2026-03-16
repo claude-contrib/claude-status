@@ -6,7 +6,7 @@
 "theme_dir_fg="       + (.dir_fg      | @sh),
 "theme_branch_fg="    + (.branch_fg   | @sh),
 "theme_worktree_fg="  + (.worktree_fg | @sh),
-"theme_add_fg="       + (.add_fg      | @sh),
-"theme_del_fg="       + (.del_fg      | @sh),
-"theme_bar_yellow="   + (.bar_yellow  | @sh),
+"theme_diff_add_fg="    + (.diff_add_fg    | @sh),
+"theme_diff_del_fg="    + (.diff_del_fg    | @sh),
+"theme_context_bar_fg=" + (.context_bar_fg | @sh),
 "theme_docker_fg="    + (.docker_fg   | @sh)
