@@ -204,8 +204,8 @@ diff_segment() {
 #
 # Parses input then assembles all segment template fragments into a single
 # status line rendered with one gum format --type template call.
-# Optional segments (agent, branch, worktree) are skipped when not active.
-# Order: bar% | cost | ⚡ agent | model | dir | branch | worktree | docker | time | +/-
+# Optional segments (agent, branch, worktree, docker) are skipped when not active.
+# Order: bar% | cost | model | ⚡ agent | dir | branch | worktree | docker | time | +/-
 #
 # Outputs: status line to stdout
 main() {
@@ -218,13 +218,13 @@ main() {
   segments+=("$(context_segment)")
   segments+=("$sep")
   segments+=("$(cost_segment)")
+  segments+=("$sep")
+  segments+=("$(model_segment)")
 
   local agent
   agent=$(agent_segment)
   [ -n "$agent" ] && segments+=("$sep" "$agent")
 
-  segments+=("$sep")
-  segments+=("$(model_segment)")
   segments+=("$sep")
   segments+=("$(dir_segment)")
 
