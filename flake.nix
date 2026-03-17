@@ -12,7 +12,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
         claude-status = pkgs.stdenvNoCC.mkDerivation {
           pname = "claude-status";
-          version = builtins.replaceStrings ["\n"] [""] (builtins.readFile ./version.txt);
+          version = pkgs.lib.fileContents ./version.txt;
           src = ./.;
           nativeBuildInputs = [ pkgs.makeWrapper ];
           installPhase = ''
