@@ -21,7 +21,7 @@ Claude Code calls your `statusLine` command after each tool invocation, piping a
 
 ## Installation
 
-### Via zinit
+### Using zinit
 
 Add to your `~/.zshrc`:
 
@@ -29,7 +29,7 @@ Add to your `~/.zshrc`:
 zinit light claude-contrib/claude-status
 ```
 
-### Via Nix flakes
+### Using Nix flakes
 
 ```sh
 nix profile install github:claude-contrib/claude-status
