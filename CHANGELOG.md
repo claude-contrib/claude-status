@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/claude-contrib/claude-status/compare/v0.4.0...v0.4.1) (2026-03-17)
+
+
+### Bug Fixes
+
+* **nix:** read version from version.txt instead of hardcoding it ([c3601e8](https://github.com/claude-contrib/claude-status/commit/c3601e8d34a9258b924011322a2b7cb95ad7754a))
+
 ## [0.4.0](https://github.com/claude-contrib/claude-status/compare/v0.3.1...v0.4.0) (2026-03-16)
 
 
