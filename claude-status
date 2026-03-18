@@ -133,7 +133,7 @@ dir_segment() {
 branch_segment() {
   local branch="$worktree_branch"
   [ -z "$branch" ] && branch=$(git -C "$current_dir" branch --show-current 2>/dev/null)
-  [ -n "$branch" ] && _printf_color "$theme_branch_fg" " $branch"
+  [ -n "$branch" ] && _printf_color "$theme_branch_fg" "  $branch"
 }
 
 # worktree_segment
@@ -203,7 +203,7 @@ time_segment() {
   mins=$(((cost_duration_ms % 3600000) / 60000))
   secs=$(((cost_duration_ms % 60000) / 1000))
   [ "$hours" -gt 0 ] && fmt="${hours}h ${mins}m ${secs}s" || fmt="${mins}m ${secs}s"
-  _printf_color "$theme_muted_fg" "󱑓 ${fmt}"
+  _printf_color "$theme_muted_fg" "󱑓  ${fmt}"
 }
 
 # diff_segment
