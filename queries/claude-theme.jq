@@ -9,4 +9,5 @@
 "theme_diff_add_fg="    + (.diff_add_fg    | @sh),
 "theme_diff_del_fg="    + (.diff_del_fg    | @sh),
 "theme_context_bar_fg=" + (.context_bar_fg | @sh),
-"theme_docker_fg="    + (.docker_fg   | @sh)
+"theme_docker_fg="    + (.docker_fg   | @sh),
+"theme_nix_fg="       + (.nix_fg      | @sh)

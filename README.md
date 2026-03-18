@@ -99,17 +99,18 @@ Restart your shell. The status line appears automatically on every Claude Code t
 
 Each segment is independently styled and only shown when relevant:
 
-| Segment     | Example             | Description                                                        |
-| ----------- | ------------------- | ------------------------------------------------------------------ |
-| Context bar | `⣿⣿⣿⣿⣀⣀⣀⣀⣀⣀ 42%`    | 10-char progress bar + percentage; green → yellow → red at 70%/90% |
-| Cost        | `$ 0.13`            | Total session cost in USD                                          |
-| Agent       | `⚡ sub-agent`      | Active agent name — hidden when not in agent mode                  |
-| Model       | `claude-sonnet-4-6` | Display name of the active model                                   |
-| Directory   | `  my-project`     | Basename of the current working directory                          |
-| Branch      | ` main`            | Active git branch (uses worktree branch when inside a worktree)    |
-| Worktree    | `󰙅 feature-x`       | Active worktree name — hidden when not in a worktree               |
-| Time        | `󱑓 3m 42s`          | Total session duration; shows hours when over 60 minutes           |
-| Diff        | `+84 -12`           | Lines added (green) and removed (red) during the session           |
+| Segment     | Example             | Description                                                              |
+| ----------- | ------------------- | ------------------------------------------------------------------------ |
+| Context bar | `⣿⣿⣿⣿⣀⣀⣀⣀⣀⣀ 42%`    | 10-char progress bar + percentage; green → yellow → red at 70%/90%       |
+| Cost        | `$ 0.13`            | Total session cost in USD                                                |
+| Agent       | `⚡ sub-agent`      | Active agent name — hidden when not in agent mode                        |
+| Model       | `claude-sonnet-4-6` | Display name of the active model                                         |
+| Directory   | `  my-project`     | Basename of the current working directory                                |
+| Branch      | ` main`            | Active git branch (uses worktree branch when inside a worktree)          |
+| Worktree    | `󰙅 feature-x`       | Active worktree name — hidden when not in a worktree                     |
+| Time        | `󱑓 3m 42s`          | Total session duration; shows hours when over 60 minutes                 |
+| Diff        | `+84 -12`           | Lines added (green) and removed (red) during the session                 |
+| Nix         | ` 2.18.1`          | Nix icon + version — hidden when not inside `nix develop` or `nix-shell` |
 
 ## Configuration
 

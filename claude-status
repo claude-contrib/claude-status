@@ -34,7 +34,7 @@ _theme="${CLAUDE_CODE_STATUS_THEME:-catppuccin-mocha}"
 [[ "$_theme" != */* ]] && _theme="$_source_dir/themes/${_theme}.json"
 
 eval "$(jq -r -f "$_source_dir/queries/claude-theme.jq" "$_theme")"
-readonly theme_sep_fg theme_muted_fg theme_cost_fg theme_agent_fg theme_model_fg theme_dir_fg theme_branch_fg theme_worktree_fg theme_diff_add_fg theme_diff_del_fg theme_context_bar_fg theme_docker_fg
+readonly theme_sep_fg theme_muted_fg theme_cost_fg theme_agent_fg theme_model_fg theme_dir_fg theme_branch_fg theme_worktree_fg theme_diff_add_fg theme_diff_del_fg theme_context_bar_fg theme_docker_fg theme_nix_fg
 
 # ── Template helper ──────────────────────────────────────────────────────────────────────────
 
@@ -119,7 +119,7 @@ model_segment() {
 # Globals: current_dir
 # Outputs: gum template fragment to stdout
 dir_segment() {
-  _printf_color "$theme_dir_fg" "  ${current_dir##*/}"
+  _printf_color "$theme_dir_fg" " ${current_dir##*/}"
 }
 
 # branch_segment
@@ -174,6 +174,23 @@ docker_segment() {
   [ "$in_docker" = true ] && _printf_color "$theme_docker_fg" "  docker"
 }
 
+# nix_segment
+#
+# Renders the Nix icon and version when inside a nix develop or nix-shell
+# environment. Outputs nothing when not inside a Nix environment.
+#
+# Outputs: colored Nix icon + version (or just icon) to stdout, or empty
+nix_segment() {
+  [ -z "${IN_NIX_SHELL:-}" ] && return
+  local nix_ver
+  nix_ver=$(nix --version 2>/dev/null | awk '{print $NF}')
+  if [ -n "$nix_ver" ]; then
+    _printf_color "$theme_nix_fg" " $nix_ver"
+  else
+    _printf_color "$theme_nix_fg" " "
+  fi
+}
+
 # time_segment
 #
 # Renders the total session duration as Xm Ys, or Xh Ym Ys when over an hour.
@@ -204,8 +221,8 @@ diff_segment() {
 #
 # Parses input then assembles all segment template fragments into a single
 # status line rendered with one gum format --type template call.
-# Optional segments (agent, branch, worktree, docker) are skipped when not active.
-# Order: bar% | cost | time | +/- | model | ⚡ agent | dir | branch | worktree | docker
+# Optional segments (agent, branch, worktree, docker, nix) are skipped when not active.
+# Order: bar% | cost | time | +/- | model | ⚡ agent | dir | branch | worktree | docker | nix
 #
 # Outputs: status line to stdout
 main() {
@@ -243,6 +260,10 @@ main() {
   local docker
   docker=$(docker_segment)
   [ -n "$docker" ] && segments+=("$sep" "$docker")
+
+  local nix
+  nix=$(nix_segment)
+  [ -n "$nix" ] && segments+=("$sep" "$nix")
 
   printf '%s' "${segments[@]}"
   printf '\n'
