@@ -20,6 +20,26 @@ Claude Code calls your `statusLine` command after each tool invocation, piping a
 > - `LANG=C.UTF-8` — needed for Unicode glyphs (Braille progress bar, Nerd Font icons)
 > - `COLORTERM=truecolor` — needed for 24-bit color passthrough
 
+## Requirements
+
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code/setup) (`claude`)
+- [jq](https://jqlang.github.io/jq/) (`jq`)
+- A TrueColor terminal (iTerm2, Kitty, Alacritty, Warp, Ghostty, Windows Terminal)
+
+**macOS (Homebrew):**
+
+```bash
+brew install jq
+```
+
+**Nix:**
+
+```bash
+nix profile install nixpkgs#jq
+```
+
+Install `claude` separately: [Claude Code installation guide](https://docs.anthropic.com/en/docs/claude-code/setup)
+
 ## Installation
 
 ### Using zinit
