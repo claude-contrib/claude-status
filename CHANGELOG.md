@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/claude-contrib/claude-status/compare/v0.4.1...v0.5.0) (2026-03-19)
+
+
+### Features
+
+* add nix segment to status line ([c0409d2](https://github.com/claude-contrib/claude-status/commit/c0409d2764420908c61e4f724009f8081083e38a))
+* **nix:** detect flake and pure shell environments ([b2ae725](https://github.com/claude-contrib/claude-status/commit/b2ae7252f81b9deb4dee7a22b3b7d609d5034e10))
+
 ## [0.4.1](https://github.com/claude-contrib/claude-status/compare/v0.4.0...v0.4.1) (2026-03-17)
 
 
