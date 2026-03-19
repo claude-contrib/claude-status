@@ -182,13 +182,30 @@ docker_segment() {
 # Outputs: colored Nix icon + version (or just icon) to stdout, or empty
 nix_segment() {
   [ -z "${IN_NIX_SHELL:-}" ] && return
-  local nix_ver
-  nix_ver=$(nix --version 2>/dev/null | awk '{print $NF}')
-  if [ -n "$nix_ver" ]; then
-    _printf_color "$theme_nix_fg" "  $nix_ver"
+
+  local nix_type dir is_flake label
+
+  if [ "${IN_NIX_SHELL}" = "pure" ]; then
+    nix_type="pure"
   else
-    _printf_color "$theme_nix_fg" " "
+    # Traverse up from current_dir looking for flake.nix
+    dir="$current_dir"
+    is_flake=false
+    while [ "$dir" != "/" ]; do
+      [ -f "$dir/flake.nix" ] && is_flake=true && break
+      dir=$(dirname "$dir")
+    done
+    [ "$is_flake" = true ] && nix_type="flake" || nix_type="nix-shell"
   fi
+
+  # $name is set by nix-shell/nix develop to the derivation name
+  if [ -n "${name:-}" ]; then
+    label="$nix_type · ${name}"
+  else
+    label="$nix_type"
+  fi
+
+  _printf_color "$theme_nix_fg" "  $label"
 }
 
 # time_segment
