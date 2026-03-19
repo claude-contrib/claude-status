@@ -157,7 +157,7 @@ worktree_segment() {
     fi
   fi
 
-  [ -n "$worktree_name" ] && _printf_color "$theme_worktree_fg" "󰙅 $worktree_name"
+  [ -n "$worktree_name" ] && _printf_color "$theme_worktree_fg" "󰙅  $worktree_name"
 }
 
 # docker_segment
