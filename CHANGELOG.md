@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/claude-contrib/claude-status/compare/v0.5.0...v0.6.0) (2026-03-19)
+
+
+### Features
+
+* switch context bar to braille dots (⣿) with dim inactive field ([f29e7f2](https://github.com/claude-contrib/claude-status/commit/f29e7f2d2693c759ff21df97e9f577725b84b4ad))
+
 ## [0.5.0](https://github.com/claude-contrib/claude-status/compare/v0.4.1...v0.5.0) (2026-03-19)
 
 
