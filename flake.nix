@@ -6,8 +6,10 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    { nixpkgs, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
         claude-status = pkgs.stdenvNoCC.mkDerivation {
@@ -25,14 +27,17 @@
               --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.jq ]}
           '';
         };
-      in {
+      in
+      {
         packages.default = claude-status;
 
         devShells.default = pkgs.mkShell {
+          name = "claude-status";
           packages = with pkgs; [
             bash
             jq
           ];
         };
-      });
+      }
+    );
 }
