@@ -122,6 +122,29 @@ dir_segment() {
   _printf_color "$theme_dir_fg" "  ${current_dir##*/}"
 }
 
+# _shorten_branch <branch>
+#
+# Shortens branch names longer than 30 characters that contain 3+ path
+# components to first/…/last format using a Unicode ellipsis.
+# Examples:
+#   dependabot/docker/docker/nixos/nix-2.34.2 -> dependabot/…/nix-2.34.2
+#   feat/ui/button                             -> feat/ui/button
+_shorten_branch() {
+  local branch="$1"
+  if [ "${#branch}" -le 30 ]; then
+    printf '%s' "$branch"
+    return
+  fi
+  local IFS='/'
+  read -ra parts <<< "$branch"
+  local count="${#parts[@]}"
+  if [ "$count" -gt 2 ]; then
+    printf '%s/…/%s' "${parts[0]}" "${parts[$((count-1))]}"
+  else
+    printf '%s' "$branch"
+  fi
+}
+
 # branch_segment
 #
 # Renders the current git branch. Uses worktree_branch when inside a
@@ -133,7 +156,7 @@ dir_segment() {
 branch_segment() {
   local branch="$worktree_branch"
   [ -z "$branch" ] && branch=$(git -C "$current_dir" branch --show-current 2>/dev/null)
-  [ -n "$branch" ] && _printf_color "$theme_branch_fg" "  $branch"
+  [ -n "$branch" ] && _printf_color "$theme_branch_fg" "  $(_shorten_branch \"$branch\")"
 }
 
 # worktree_segment
