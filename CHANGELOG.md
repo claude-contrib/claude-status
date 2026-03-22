@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/claude-contrib/claude-status/compare/v0.6.0...v0.7.0) (2026-03-22)
+
+
+### Features
+
+* shorten long branch names with first/…/last truncation ([6141456](https://github.com/claude-contrib/claude-status/commit/6141456cb82669e98db30151c40c3c0d3f186a26))
+
 ## [0.6.0](https://github.com/claude-contrib/claude-status/compare/v0.5.0...v0.6.0) (2026-03-19)
 
 
