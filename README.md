@@ -2,6 +2,7 @@
 
 > A live [Claude Code](https://claude.ai/code) status line for your terminal — context usage, cost, model, branch, worktree, and more.
 
+[![Claude](https://img.shields.io/badge/Claude-AI-black?logo=anthropic)](https://claude.ai)
 [![Release](https://img.shields.io/github/v/release/claude-contrib/claude-status)](https://github.com/claude-contrib/claude-status/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
