@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.1](https://github.com/claude-contrib/claude-status/compare/v0.7.0...v0.7.1) (2026-04-11)
+
+
+### Bug Fixes
+
+* add postCreateCommand to restore nix volume permissions ([5236e8f](https://github.com/claude-contrib/claude-status/commit/5236e8fed1cb7ada2ab2f19f42821a729e441f25))
+* remove literal quotes from branch segment output ([2f0c57a](https://github.com/claude-contrib/claude-status/commit/2f0c57a478c5793e94706d32a3561cbc048bc83e))
+
 ## [0.7.0](https://github.com/claude-contrib/claude-status/compare/v0.6.0...v0.7.0) (2026-03-22)
 
 
