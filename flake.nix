@@ -35,6 +35,7 @@
           name = "claude-status";
           packages = with pkgs; [
             bash
+            bats
             jq
           ];
         };
