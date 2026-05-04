@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.2](https://github.com/claude-contrib/claude-status/compare/v0.7.1...v0.7.2) (2026-05-04)
+
+
+### Bug Fixes
+
+* **github:** correct action versions in update.yml ([557caa6](https://github.com/claude-contrib/claude-status/commit/557caa6b1657e5bbe43aabd44baf955880a7df0f))
+
 ## [0.7.1](https://github.com/claude-contrib/claude-status/compare/v0.7.0...v0.7.1) (2026-04-16)
 
 
